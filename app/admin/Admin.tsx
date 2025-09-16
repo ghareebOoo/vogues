@@ -3,13 +3,15 @@ import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { supabase } from "../../src/supabase-clients";
 import Link from "next/link";
+import { User } from '@supabase/supabase-js';
+
 
 type PriceInput = { size: string; value: string };
 
 export default function AdminPage() {
   const router = useRouter();
   const [loading, setLoading] = useState(true);
-  const [user, setUser] = useState<any>(null);
+  const [user, setUser] = useState<User>();
   const [verified, setVerified] = useState(false);
   const [error, setError] = useState("");
 

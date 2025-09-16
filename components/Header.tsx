@@ -11,7 +11,7 @@ import myPhoto from "../public/src/assets/user.jpg"
 import { FaBars } from "react-icons/fa";
 import { IoMdClose } from "react-icons/io";
 import { useCart } from '@/context/CartContext'
-
+import { User } from '@supabase/supabase-js';
 
 export default function Header() {
     
@@ -39,7 +39,7 @@ export default function Header() {
 
     const pathName = usePathname()
 
-    const [user, setUser] = useState<any>(null);
+    const [user, setUser] = useState<User | null>();
 
     const [showNav , setShowNav] = useState(false)
 
