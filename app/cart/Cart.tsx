@@ -6,6 +6,7 @@ import { AiFillCloseCircle } from "react-icons/ai";
 import Link from 'next/link'
 import { useCart } from '@/context/CartContext';
 import CartSkeleton from './CartSkeleton';
+import {AnimatePresence, motion} from "framer-motion"
 
 export default function Cart() {
 
@@ -43,8 +44,15 @@ export default function Cart() {
 
                     </div>
 
-                    {cart.map((item , index)=>{
-                        return  <div key={index} className='mt-5 bg-white p-2 flex flex-col md:flex-row items-center justify-center md:justify-between gap-5'>
+                    <AnimatePresence>
+                        {cart.map((item , index)=>{
+                        return  <motion.div drag="x" dragConstraints={{left: 0 , right: 0}} 
+                            onDragEnd={(e,info)=> {if (Math.abs(info.offset.x) > 100) {deleteCart(index)}}}
+                            whileDrag={{scale: 1.03}}
+                            initial={{ x: 0, opacity: 1 }}
+                            exit={{ opacity: 0, x: -100 }}
+                            transition={{ duration: 1 , type: "spring"}} 
+                            key={index} className='mt-5 bg-white p-2 flex flex-col md:flex-row items-center justify-center md:justify-between gap-5'>
 
                             <div className='w-full md:max-w-[70%]'>
 
@@ -85,10 +93,10 @@ export default function Cart() {
 
                             </div>
 
-                        </div>
+                        </motion.div>
 
                     })}
-
+                    </AnimatePresence>
 
                 </div>
 
