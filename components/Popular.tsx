@@ -21,7 +21,7 @@ export default function Popular() {
         {isLoading ? (
                   <ProductCardSkeleton count={4} />) : 
             ( <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8'>
-            {popularProducts.map((product , index)=>{
+            {popularProducts.slice(0 , 8).map((product , index)=>{
                 return <div key={index} className='group'>
                     <div className={`${["Coconut Body Oil", "Almond Body Oil", "Lavender Body Oil"].includes(product.title) ? "bg-[#F2F2F2]" : "bg-[#F6F9F6]"} rounded-md relative z-10`}>
                         <Image src={product.images[0]} alt='image' width={200} height={200} className='mx-auto' />
