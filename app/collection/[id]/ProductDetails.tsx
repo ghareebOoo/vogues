@@ -138,7 +138,7 @@ export default function ProductDetails({ id }: { id: string }) {
  
           <div className='mt-5 flex items-center gap-2'>
             {productDetails.sizes.map((si, index) => (
-              <label key={index} className={`cursor-pointer px-4 py-1 rounded-md border ${size === si ? "bg-amber-300" : "bg-white"}`}>
+              <label key={index} className={`cursor-pointer px-4 py-1 rounded-md border-[1px] border-gray-50 ${size === si ? "bg-amber-300" : "bg-white"}`}>
                 <input type="radio" name="size" value={si} checked={size === si} onChange={() => setSize(si)} className="appearance-none"/>
                 {si}
               </label>
