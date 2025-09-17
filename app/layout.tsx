@@ -5,6 +5,8 @@ import Header from "../components/Header";
 import VoguesContextProvider from "@/context/VoguesContext";
 import Footer from "../components/Footer";
 import CartContextProvider from "@/context/CartContext";
+import { Toaster } from 'react-hot-toast';
+
 
 // const geistSans = Geist({
 //   variable: "--font-geist-sans",
@@ -41,6 +43,7 @@ export default function RootLayout({
           <CartContextProvider>
             <Header />
             {children}
+            <Toaster position="top-left"/>
             <Footer />
           </CartContextProvider>
         </VoguesContextProvider>

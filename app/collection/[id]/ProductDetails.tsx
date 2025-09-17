@@ -6,12 +6,11 @@ import { BsCartPlus } from "react-icons/bs";
 import { TbTruckDelivery } from "react-icons/tb";
 import { RiSecurePaymentFill } from "react-icons/ri";
 import { GiReturnArrow } from 'react-icons/gi'
-// import Link from 'next/link'
 import { useVOgues } from '@/context/VoguesContext';
 import RelatedProducts from './RelatedProducts';
 import { useCart } from '@/context/CartContext';
 import ProductDetailsSkeleton from '../ProductDetailsSkeleton';
-// import toast from 'react-hot-toast';
+import toast from 'react-hot-toast';
 export default function ProductDetails({ id }: { id: string }) {
 
 
@@ -150,7 +149,7 @@ export default function ProductDetails({ id }: { id: string }) {
 
             <div className='flex items-center gap-4 w-full'>
 
-                <button disabled={!size} onClick={()=>addToCart(productDetails.id , productDetails.images[0] , size , productDetails.title , productDetails.price[size] , 1)} className={`${!size ? "bg-gray-400 cursor-not-allowed" : "bg-black text-white"} cursor-pointer flex-grow flex justify-center items-center gap-2 py-3 rounded-full`}>Add To Cart <BsCartPlus className='text-2xl text-gray-300'/></button>
+                <button disabled={!size} onClick={()=>{addToCart(productDetails.id , productDetails.images[0] , size , productDetails.title , productDetails.price[size] , 1); toast.success("Added to cart successfully")}} className={`${!size ? "bg-gray-400 cursor-not-allowed" : "bg-black text-white"} cursor-pointer flex-grow flex justify-center items-center gap-2 py-3 rounded-full`}>Add To Cart <BsCartPlus className='text-2xl text-gray-300'/></button>
 
                 <button onClick={()=> handelLoved(String(productDetails.id))} className={`cursor-pointer py-3 px-8 bg-white border-[1px] border-gray-50 transition-all duration-500 hover:bg-gray-400 rounded-full`}><FaHeart className={`${loved.includes(String(productDetails.id)) ? "text-red-500" : ""} text-2xl`}/></button>
 

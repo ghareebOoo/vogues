@@ -6,7 +6,7 @@ import Link from "next/link";
 import { User } from '@supabase/supabase-js';
 
 
-type PriceInput = { size: string; value: string };
+type PriceInput = { size: string; price: string };
 
 export default function AdminPage() {
   const router = useRouter();
@@ -14,6 +14,7 @@ export default function AdminPage() {
   const [user, setUser] = useState<User>();
   const [verified, setVerified] = useState(false);
   const [error, setError] = useState("");
+
 
   const [myProduct, setMyProduct] = useState({
     title: "",
@@ -27,9 +28,25 @@ export default function AdminPage() {
     price: {} as Record<string, number>,
   });
 
-  const [priceInputs, setPriceInputs] = useState<PriceInput[]>([
-    { size: "", value: "" },
-  ]);
+
+  const [priceInputs, setPriceInputs] = useState<PriceInput[]>([{ size: "", price: "" },]);
+
+  const handlePriceChange = (index: number, field: "size" | "price", val: string) => {
+    const newInputs = [...priceInputs];
+    newInputs[index][field] = val;
+    setPriceInputs(newInputs);
+  };
+
+  const handleAddPriceInput = () => {
+    const lastInput = priceInputs[priceInputs.length - 1];
+    if(!lastInput.size.trim() || !lastInput.price.trim() || priceInputs.length >= 3){
+      return;
+    }
+    setPriceInputs([...priceInputs , { size: "", price: "" }]);
+  };
+
+ 
+
 
   useEffect(() => {
     const checkUser = async () => {
@@ -77,17 +94,13 @@ export default function AdminPage() {
 
   const uploadImage = async (file: File) => {
     const filePath = `${file.name}-${Date.now()}`;
-    const { error: uploadImageError } = await supabase.storage
-      .from("product_images")
-      .upload(filePath, file);
+    const { error: uploadImageError } = await supabase.storage.from("product_images").upload(filePath, file);
     if (uploadImageError) {
       console.error("uploadImageError:", uploadImageError);
       return null;
     }
 
-    const { data } = await supabase.storage
-      .from("product_images")
-      .getPublicUrl(filePath);
+    const { data } = await supabase.storage.from("product_images").getPublicUrl(filePath);
     return data.publicUrl;
   };
 
@@ -97,39 +110,24 @@ export default function AdminPage() {
     }
   };
 
-  const handlePriceChange = (
-    index: number,
-    field: "size" | "value",
-    val: string
-  ) => {
-    const newInputs = [...priceInputs];
-    newInputs[index][field] = val;
-    setPriceInputs(newInputs);
-  };
-
-  const handleAddPriceInput = () => {
-    setPriceInputs([...priceInputs, { size: "", value: "" }]);
-  };
 
   const addNewProduct = async (e: React.FormEvent) => {
     e.preventDefault();
 
     const priceObj: Record<string, number> = {};
     priceInputs.forEach((p) => {
-      const val = Number(p.value);
+      const val = Number(p.price);
       if (p.size && !isNaN(val)) priceObj[p.size] = val;
     });
 
+  
     const imageUrls: string[] = [];
     for (const file of myProduct.images) {
       const url = await uploadImage(file);
       if (url) imageUrls.push(url);
     }
-    const { error: addNewProductError, data } = await supabase
-      .from("products")
-      .insert(
-        { ...myProduct, images: imageUrls , price: priceObj, sizes: Object.keys(priceObj) },
-      );
+
+    const { error: addNewProductError, data } = await supabase.from("products").insert({ ...myProduct, images: imageUrls , price: priceObj, sizes: Object.keys(priceObj) },);
 
     if (addNewProductError) console.error("addNewProductError:", addNewProductError);
     else console.log("Product added:", data);
@@ -145,7 +143,7 @@ export default function AdminPage() {
       sizes: [],
       price: {},
     });
-    setPriceInputs([{ size: "", value: "" }]);
+    setPriceInputs([{ size: "", price: "" }]);
   };
 
   return (
@@ -251,8 +249,8 @@ export default function AdminPage() {
                     type="text"
                     placeholder="Price"
                     className="px-2 py-1 border rounded w-1/2"
-                    value={p.value}
-                    onChange={(e) => handlePriceChange(idx, "value", e.target.value)}
+                    value={p.price}
+                    onChange={(e) => handlePriceChange(idx, "price", e.target.value)}
                   />
                 </div>
               ))}

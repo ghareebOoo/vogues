@@ -47,6 +47,8 @@ export default function Collection() {
       window.removeEventListener("resize" , handelResize)
     }
   },[])
+
+
   const [chooseLevl , setChooseLevel] = useState("relevant");
   const [categories , setCategories] = useState<string[]>([]);
   const [types , setTypes] = useState<string[]>([]);
@@ -71,10 +73,7 @@ export default function Collection() {
   let data = [...products];
 
   if (searech) {
-    data = data.filter(
-      (item) =>
-        item.title.toLowerCase().trim().includes(searech.toLowerCase().trim())  
-    );
+    data = data.filter((item) => item.title.toLowerCase().trim().includes(searech.toLowerCase().trim()) );
   }
 
 if (chooseLevl === "low") {
@@ -109,7 +108,7 @@ if (chooseLevl === "low") {
   const perPage = 6;
   const totalPage = Math.ceil(filteredData.length / perPage);
   const paginatedProducts = useMemo(
-    () => filteredData.slice((currentPage - 1) * perPage, currentPage * perPage),
+    () => filteredData.slice((currentPage - 1) * perPage , currentPage * perPage),
     [filteredData, currentPage]
   );
 
