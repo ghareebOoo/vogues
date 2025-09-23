@@ -128,7 +128,7 @@ const isLoading = !products || products.length === 0
 
       <div className='flex gap-8'>
 
-        {showSideBar && (isLoading ? <SidebarSkeleton/> :     <motion.div initial={{ y: isDesktop ? 0 : "-130%"  }} animate={{ y: 0, transition: { duration: 0.7, ease: "easeOut" } }} className={` xl:block xl:translate-y-0 absolute z-50 top-[120px] xl:static left-[50%] translate-x-[-50%] xl:translate-x-0 w-full xl:w-[300px] h-auto bg-primary rounded-md p-2`}>
+        {showSideBar && (isLoading ? <SidebarSkeleton/> :     <motion.div initial={{ y: isDesktop ? 0 : "-130%"  }} animate={{ y: 0, transition: { duration: 0.7, ease: "easeOut" } }} className={` xl:block xl:translate-y-0 absolute z-40 top-[120px] xl:static left-[50%] translate-x-[-50%] xl:translate-x-0 w-full xl:w-[300px] h-auto bg-primary rounded-md p-2`}>
           <div onClick={()=>setShowSideBar(false)} className='xl:hidden cursor-pointer absolute right-2 top-2'>
             <Image  src={close} alt='icon' width={30} height={30} className='text-[30px]' />
           </div>
